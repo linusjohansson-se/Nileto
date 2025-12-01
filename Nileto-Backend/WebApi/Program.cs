@@ -8,6 +8,8 @@ builder.Services.AddDependencies();
 
 var app = builder.Build();
 
+app.MapEndpoints(app.MapGroup("/api"));
+
 app.UseOpenApi();
 
 app.UseHttpsRedirection();

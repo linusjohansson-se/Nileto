@@ -9,9 +9,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df6c57a6-0043-4af2-9c92-f4bf09d0d711" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/WebApi/Extensions/EndpointExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebApi/Startup/DependenciesConfig.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebApi/Startup/OpenApiConfig.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebApi/Endpoints/IEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Nileto-Backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nileto-Backend/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApi/Extensions/EndpointExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApi/Startup/EndpointsConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApi/Startup/DependenciesConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApi/Startup/DependenciesConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApi/WebApi.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/WebApi/WebApi.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,10 +30,10 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4231b918bc114cba969a3d191d8e626f139600/41/d9aa75fa/ScalarTheme.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4231b918bc114cba969a3d191d8e626f139600/a4/eec62abb/ScalarAuthenticationOptions.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="36CwDUWBlvNIld5icuT4ECbxVeG" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -41,7 +43,7 @@
   "keyToString": {
     ".NET Launch Settings Profile.WebApi: http.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "develop",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -91,6 +93,7 @@
       <option name="presentableId" value="Default" />
       <updated>1764523743279</updated>
       <workItem from="1764523744451" duration="1952000" />
+      <workItem from="1764609913662" duration="1037000" />
     </task>
     <servers />
   </component>
