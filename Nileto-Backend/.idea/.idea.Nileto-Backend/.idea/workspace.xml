@@ -9,11 +9,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df6c57a6-0043-4af2-9c92-f4bf09d0d711" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/WebApi/Endpoints/IEndpoint.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastructure/Database/ApplicationDbContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastructure/Database/Schemas.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastructure/DependancyInjection.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastructure/Infrastructure.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Nileto-Backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nileto-Backend/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApi/Extensions/EndpointExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApi/Startup/EndpointsConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApi/Startup/DependenciesConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApi/Startup/DependenciesConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApi/WebApi.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/WebApi/WebApi.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nileto-Backend.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Nileto-Backend.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +42,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Launch Settings Profile.WebApi: http.executor": "Run",
+    ".NET Launch Settings Profile.WebApi: http.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "develop",
     "node.js.detected.package.eslint": "true",
@@ -93,7 +94,7 @@
       <option name="presentableId" value="Default" />
       <updated>1764523743279</updated>
       <workItem from="1764523744451" duration="1952000" />
-      <workItem from="1764609913662" duration="1037000" />
+      <workItem from="1764609913662" duration="4538000" />
     </task>
     <servers />
   </component>
