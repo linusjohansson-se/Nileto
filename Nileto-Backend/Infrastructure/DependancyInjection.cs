@@ -1,5 +1,6 @@
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +13,9 @@ public static class DependancyInjection
     {
         services.AddDbContext<ApplicationDbContext>(
             options => options
-                .UseNpgsql()
+                .UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
                 .UseSnakeCaseNamingConvention());
+        
+        return services;
     }
 }
