@@ -8,6 +8,11 @@ namespace Infrastructure;
 
 public static class DependancyInjection
 {
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    {
+        return services.AddDatabase(configuration);
+    }
+    
     private static IServiceCollection AddDatabase(this IServiceCollection services,
         IConfiguration configuration)
     {
