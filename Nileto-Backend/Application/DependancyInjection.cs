@@ -9,7 +9,7 @@ public static class DependancyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        return services.AddMessaging(typeof(Application).Assembly);
+        return services.AddMessaging(typeof(DependancyInjection).Assembly);
     }
 
     private static IServiceCollection AddMessaging(this IServiceCollection services, Assembly assembly)
