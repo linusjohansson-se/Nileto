@@ -1,6 +1,6 @@
 namespace Application.Abstractions.Messaging;
 
-public interface IQueryHandler
+public interface IQueryHandler<TQuery> where TQuery : IQuery 
 {
     
 }
