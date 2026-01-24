@@ -17,7 +17,7 @@ public class MessageBuilder
         where TEntity : class
     {
         var table = GetTable<TEntity>();
-        var values = BuildValues(entity, table, fields);
+        var values = BuildValues(entity, fields);
         
         return new InsertMessage(table, values);
     }
@@ -29,7 +29,7 @@ public class MessageBuilder
         where TEntity : class
     {
         var table = GetTable<TEntity>();
-        var values = BuildValues(entity, table, fields);
+        var values = BuildValues(entity, fields);
 
         return new UpdateMessage(table, values, where);
     }
@@ -86,9 +86,7 @@ public class MessageBuilder
             .ToList();
     }
 
-    private IReadOnlyDictionary<string, object?> BuildValues<TEntity>(
-        TEntity entity,
-        string table,
+    private IReadOnlyDictionary<IProperty, object?> BuildValues<TEntity>(
         IReadOnlyDictionary<string, object?> fields)
         where TEntity : class
     {
@@ -96,42 +94,18 @@ public class MessageBuilder
                          ?? throw new InvalidOperationException(
                              $"Type {typeof(TEntity).Name} is not mapped in EF");
 
-        var tableName = entityType.GetTableName()
-                        ?? throw new InvalidOperationException("No table name");
+        var byPropName = entityType.GetProperties()
+            .ToDictionary(p => p.Name, p => p, StringComparer.OrdinalIgnoreCase);
 
-        var schema = entityType.GetSchema();
-        var storeObject = StoreObjectIdentifier.Table(tableName, schema);
-
-        var result = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
+        var result = new Dictionary<IProperty, object?>();
 
         foreach (var (key, providedValue) in fields)
         {
-            // 1) Key kan vara property-namn
-            var prop = entityType.FindProperty(key);
-
-            // 2) Eller key kan vara kolumnnamn
-            prop ??= entityType.GetProperties()
-                .FirstOrDefault(p =>
-                {
-                    var col = p.GetColumnName(storeObject);
-                    return col != null && col.Equals(key, StringComparison.OrdinalIgnoreCase);
-                });
-
-            if (prop is null)
+            if (!byPropName.TryGetValue(key, out var prop))
                 throw new InvalidOperationException(
-                    $"Field '{key}' is not a mapped column for '{entityType.ClrType.Name}'.");
+                    $"Field '{key}' is not a mapped property for '{entityType.ClrType.Name}'.");
 
-            var columnName = prop.GetColumnName(storeObject)
-                             ?? throw new InvalidOperationException(
-                                 $"No column mapping found for '{entityType.ClrType.Name}.{prop.Name}'.");
-
-            // Använd värdet från dict (inkl null) om key finns, annars läs från entity
-            object? valueToUse = providedValue;
-
-            // Konvertera via EF ValueConverter (t.ex. enums, value objects)
-            valueToUse = ConvertToProviderValue(prop, valueToUse);
-
-            result[columnName] = valueToUse;
+            result[prop] = ConvertToProviderValue(prop, providedValue);
         }
 
         return result;
@@ -141,7 +115,7 @@ public class MessageBuilder
     {
         if (value is null) return null;
 
-        var converter = prop.GetValueConverter();
+        var converter = prop.GetTypeMapping().Converter;
         if (converter is null) return value;
 
         return converter.ConvertToProvider(value);

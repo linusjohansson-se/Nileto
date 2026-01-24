@@ -1,8 +1,10 @@
+using Microsoft.EntityFrameworkCore.Metadata;
+
 namespace Application.Abstractions.Messaging;
 
 public sealed record InsertMessage(
     string Target,
-    IReadOnlyDictionary<string, object?> Values
+    IReadOnlyDictionary<IProperty, object?> Values
 ) : IMessage
 {
     public MessageKind Kind => MessageKind.Insert;
@@ -10,8 +12,8 @@ public sealed record InsertMessage(
 
 public sealed record UpdateMessage(
     string Target,
-    IReadOnlyDictionary<string, object?> Values,
-    IReadOnlyDictionary<string, object?> Where
+    IReadOnlyDictionary<IProperty, object?> Values,
+    IReadOnlyDictionary<IProperty, object?> Where
 ) : IMessage
 {
     public MessageKind Kind => MessageKind.Update;
@@ -19,8 +21,8 @@ public sealed record UpdateMessage(
 
 public sealed record SelectMessage(
     string Target,
-    IReadOnlyList<string> Columns,
-    IReadOnlyDictionary<string, object?>? Where = null
+    IReadOnlyList<IProperty> Columns,
+    IReadOnlyDictionary<IProperty, object?>? Where = null
 ) : IMessage
 {
     public MessageKind Kind => MessageKind.Select;
