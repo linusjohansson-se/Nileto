@@ -1,10 +1,6 @@
-using Application.Abstractions.Messaging;
-
-namespace Application.Abstractions;
+namespace Application.Abstractions.Messaging;
 
 public interface ISender
 {
-    public Task<IResponse> Send(ICommand command);
-    
-    public Task<IQueryResponse> Send(IQuery query);
+    Task<TResponse> Send<TResponse>(ICommand<TResponse> command);
 }

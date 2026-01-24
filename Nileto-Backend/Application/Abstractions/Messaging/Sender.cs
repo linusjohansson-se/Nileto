@@ -6,9 +6,4 @@ public class Sender : ISender
     {
         throw new NotImplementedException();
     }
-
-    public async Task<IQueryResponse> Send(IQuery query)
-    {
-        throw new NotImplementedException();
-    }
 }

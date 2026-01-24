@@ -17,15 +17,15 @@ public static class DependancyInjection
         ServiceDescriptor[] commandServiceDescriptors = assembly
             .DefinedTypes
             .Where(type => type is { IsAbstract: false, IsInterface: false } &&
-                           type.IsAssignableTo(typeof(ICommandHandler)))
-            .Select(type => ServiceDescriptor.Transient(typeof(ICommandHandler), type))
+                           type.IsAssignableTo(typeof(ICommandHandler<ICommand>)))
+            .Select(type => ServiceDescriptor.Transient(typeof(ICommandHandler<ICommand>), type))
             .ToArray();
         
         ServiceDescriptor[] queryServiceDescriptors = assembly
             .DefinedTypes
             .Where(type => type is { IsAbstract: false, IsInterface: false } &&
-                           type.IsAssignableTo(typeof(IQueryHandler)))
-            .Select(type => ServiceDescriptor.Transient(typeof(IQueryHandler), type))
+                           type.IsAssignableTo(typeof(IQueryHandler<IQuery>)))
+            .Select(type => ServiceDescriptor.Transient(typeof(IQueryHandler<IQuery>), type))
             .ToArray();
 
         services.TryAddEnumerable(commandServiceDescriptors);
