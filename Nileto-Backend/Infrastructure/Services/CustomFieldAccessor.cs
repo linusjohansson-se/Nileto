@@ -20,7 +20,7 @@ public class CustomFieldAccessor
     /// </summary>
     /// <typeparam name="T">The type of the custom field value</typeparam>
     /// <param name="entity">The entity containing the custom field</param>
-    /// <param name="columnName">The column name of the custom field (e.g., "custom_is_vip")</param>
+    /// <param name="columnName">The column name of the custom field (e.g., "cfcustom_is_vip")</param>
     /// <returns>The value of the custom field, or default(T) if not set</returns>
     public T? GetValue<T>(object entity, string columnName)
     {
@@ -29,7 +29,13 @@ public class CustomFieldAccessor
         if (entry.State == EntityState.Detached)
             _dbContext.Attach(entity);
 
-        return entry.Property<T>(columnName).CurrentValue;
+        // Use non-generic Property method to avoid type issues with nullables
+        var value = entry.Property(columnName).CurrentValue;
+
+        if (value == null)
+            return default;
+
+        return (T?)value;
     }
 
     /// <summary>
@@ -37,16 +43,17 @@ public class CustomFieldAccessor
     /// </summary>
     /// <typeparam name="T">The type of the custom field value</typeparam>
     /// <param name="entity">The entity containing the custom field</param>
-    /// <param name="columnName">The column name of the custom field (e.g., "custom_is_vip")</param>
+    /// <param name="columnName">The column name of the custom field (e.g., "cfcustom_is_vip")</param>
     /// <param name="value">The value to set</param>
-    public void SetValue<T>(object entity, string columnName, T value)
+    public void SetValue<T>(object entity, string columnName, T? value)
     {
         var entry = _dbContext.Entry(entity);
 
         if (entry.State == EntityState.Detached)
             _dbContext.Attach(entity);
 
-        entry.Property<T>(columnName).CurrentValue = value;
+        // Use non-generic Property method to avoid type issues
+        entry.Property(columnName).CurrentValue = value;
     }
 
     /// <summary>
