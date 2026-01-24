@@ -1,7 +1,6 @@
 using System.Reflection;
 using Application.Abstractions.Messaging;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Application;
 
@@ -9,27 +8,37 @@ public static class DependancyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        services.AddScoped<ISender, Sender>();
+
         return services.AddMessaging(typeof(DependancyInjection).Assembly);
     }
 
     private static IServiceCollection AddMessaging(this IServiceCollection services, Assembly assembly)
     {
-        ServiceDescriptor[] commandServiceDescriptors = assembly
+        // Find all concrete types that implement ICommandHandler<,>
+        var handlerTypes = assembly
             .DefinedTypes
-            .Where(type => type is { IsAbstract: false, IsInterface: false } &&
-                           type.IsAssignableTo(typeof(ICommandHandler<ICommand>)))
-            .Select(type => ServiceDescriptor.Transient(typeof(ICommandHandler<ICommand>), type))
-            .ToArray();
-        
-        ServiceDescriptor[] queryServiceDescriptors = assembly
-            .DefinedTypes
-            .Where(type => type is { IsAbstract: false, IsInterface: false } &&
-                           type.IsAssignableTo(typeof(IQueryHandler<IQuery>)))
-            .Select(type => ServiceDescriptor.Transient(typeof(IQueryHandler<IQuery>), type))
-            .ToArray();
+            .Where(type => type is { IsAbstract: false, IsInterface: false })
+            .Select(type => new
+            {
+                ImplementationType = type,
+                // Find all ICommandHandler<TCommand, TResponse> interfaces this type implements
+                HandlerInterfaces = type.GetInterfaces()
+                    .Where(i => i.IsGenericType &&
+                                i.GetGenericTypeDefinition() == typeof(ICommandHandler<,>))
+                    .ToList()
+            })
+            .Where(x => x.HandlerInterfaces.Any())
+            .ToList();
 
-        services.TryAddEnumerable(commandServiceDescriptors);
-        services.TryAddEnumerable(queryServiceDescriptors);
+        // Register each handler for each ICommandHandler<,> interface it implements
+        foreach (var handlerType in handlerTypes)
+        {
+            foreach (var handlerInterface in handlerType.HandlerInterfaces)
+            {
+                services.AddTransient(handlerInterface, handlerType.ImplementationType);
+            }
+        }
 
         return services;
     }

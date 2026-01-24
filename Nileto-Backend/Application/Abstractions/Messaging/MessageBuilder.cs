@@ -102,16 +102,15 @@ public class MessageBuilder
         var schema = entityType.GetSchema();
         var storeObject = StoreObjectIdentifier.Table(tableName, schema);
 
-        // Se till att vi kan läsa värden via Entry.Property även för shadow props
-        var entry = _dbContext.Entry(entity);
-        if (entry.State == EntityState.Detached)
-            _dbContext.Attach(entity);
-
         var result = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
 
         foreach (var (key, providedValue) in fields)
         {
-            var prop = entityType.GetProperties()
+            // 1) Key kan vara property-namn
+            var prop = entityType.FindProperty(key);
+
+            // 2) Eller key kan vara kolumnnamn
+            prop ??= entityType.GetProperties()
                 .FirstOrDefault(p =>
                 {
                     var col = p.GetColumnName(storeObject);

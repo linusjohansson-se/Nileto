@@ -1,6 +1,7 @@
 namespace Application.Abstractions.Messaging;
 
-public interface ICommandHandler<TCommand> where TCommand : ICommand
+public interface ICommandHandler<in TCommand, TResponse>
+    where TCommand : ICommand<TResponse>
 {
-    Task<IResponse> Handle(TCommand command);
+    Task<TResponse> Handle(TCommand command, CancellationToken cancellationToken = default);
 }
