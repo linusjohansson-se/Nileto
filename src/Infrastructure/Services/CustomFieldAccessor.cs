@@ -1,3 +1,4 @@
+using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
@@ -10,7 +11,7 @@ public class CustomFieldAccessor
 {
     private readonly DbContext _dbContext;
 
-    public CustomFieldAccessor(DbContext dbContext)
+    public CustomFieldAccessor(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
